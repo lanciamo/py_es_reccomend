@@ -1,3 +1,5 @@
+# coding: utf-8
+# Импортирует поддержку UTF-8.
 from flask import Flask, request, make_response, jsonify
 import json
 from elasticsearch import Elasticsearch
