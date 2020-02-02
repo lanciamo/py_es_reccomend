@@ -181,11 +181,13 @@ def main():
 
     handle_dialog(request.json, response)
 
-    return json.dumps(
-        response,
-        ensure_ascii=False,
-        indent=2
-    )
+    return "Hello!"
+
+    # return json.dumps(
+    #     response,
+    #     ensure_ascii=False,
+    #     indent=2
+    # )
 
 
 def handle_dialog(req, res):
