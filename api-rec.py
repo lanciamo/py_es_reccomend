@@ -97,7 +97,7 @@ def search_fids(fids, userId):
                                 "should": [
                                     {
                                         "multi_match": {
-                                            "query": fids,
+                                            "query": str(fids),
                                             "fields": ["fids"]
                                         }
                                     }
@@ -105,7 +105,7 @@ def search_fids(fids, userId):
                                 "must_not": [
                                     {
                                         "multi_match": {
-                                            "query": userId,
+                                            "query": int(userId),
                                             "fields": ["userId"]
                                         }
                                     }
@@ -163,9 +163,17 @@ def most_popular_fids():
     for k in d:
         if k not in output:
             output.append(k)
-            if len(output) == 10:
+            if len(output) == 20:
                 break
     return output
+
+
+def list_to_txt(lis):
+    b = ''
+    for i in range(0, len(lis)):
+        b = b + lis[i] + ' '
+    b = remove(b, '\,/:*?"<[]>|')
+    return b
 
 
 def user_preffers(userId):
@@ -180,7 +188,7 @@ def user_preffers(userId):
     for k in d:
         if k not in output:
             output.append(k)
-            if len(output) == 10:
+            if len(output) == 20:
                 break
     if len(output) < 2:
         mpf = most_popular_fids()
@@ -191,9 +199,9 @@ def user_preffers(userId):
 
 def recomended_for(userId):
     preffer = user_preffers(userId)
-    res_fids = search_fids(str(preffer), userId)
+    preffer = list_to_txt(preffer)
+    res_fids = search_fids(preffer, userId)
     return res_fids
-
 
 api.add_resource(Events, '/')
 if __name__ == '__main__':
