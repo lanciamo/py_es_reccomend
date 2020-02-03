@@ -24,7 +24,7 @@ class Events(Resource):
 
     def post(self):
         args = parser.parse_args()
-        return {recomended_for(args['uid'])}, 201
+        return recomended_for(args['uid']), 201
 
 
 
