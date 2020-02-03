@@ -153,7 +153,7 @@ def menu():
     action = input(
         "And what do you want?\n Choose:\n[1] Искать fids по userId\n[2] Искать cId по "
         "fids and user_id\n "
-        "[3] Show positions with a salary above a given \n[4] Drop current DataBase\n[5] Exit\n")
+        "[3] Combo!!! cIDs on user_id - now! \n[4] Drop current DataBase\n[5] Exit\n")
 
     if action == "1":
         user_id = input("Input user_id: ")  # python
@@ -166,8 +166,9 @@ def menu():
         # parse_hh(position, page_num, collection, mode="update")
         print(search_fids(fids, user_id))
     elif action == "3":
-        salary = float(input("From what salary will I look up?: "))
-        search_job(salary, collection)
+        user_id = input("Input user_id: ")  # python
+        fids = input("Input list of fids : ")
+        print(recomended_for(fids, user_id))
     elif action == "4":
         collection.drop()
     elif action == "5":
