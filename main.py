@@ -145,7 +145,7 @@ def user_preffers(userId):
 
 def recomended_for(user_id):
     preffer = user_preffers(user_id)
-    res_fids = search_fids(preffer, user_id)
+    res_fids = search_fids(str(preffer), user_id)
     return res_fids
 
 
