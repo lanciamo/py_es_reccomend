@@ -13,15 +13,19 @@ api = Api(app)
 
 queries = {}
 
+parser = reqparse.RequestParser()
+parser.add_argument('uid')
 
-class Recommend(Resource):
-    def get(self, user_id):
-        # return {"id": user_id}
-        return recomended_for(user_id)
 
-    def put(self, user_id):
-        queries[user_id] = request.form['data']
-        return {queries: queries[user_id]}
+class Events(Resource):
+    def get(self):
+        args = parser.parse_args()
+        return args
+
+    def post(self):
+        args = parser.parse_args()
+        return {recomended_for(args['uid'])}, 201
+
 
 
 def delete_index(name_index):  # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
@@ -189,6 +193,6 @@ def recomended_for(userId):
     return res_fids
 
 
-api.add_resource(Recommend, '/<string:user_id>')
+api.add_resource(Events, '/')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
