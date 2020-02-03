@@ -9,7 +9,7 @@ api = Api(app)
 todos = {}
 
 parser = reqparse.RequestParser()
-# parser.add_argument('uid')
+parser.add_argument('uid')
 
 
 class TodoSimple(Resource):
@@ -23,7 +23,7 @@ class TodoSimple(Resource):
     #     return {todo_id: todos[todo_id]}
 
 
-api.add_resource(TodoSimple, '/')
+api.add_resource(parser, '/')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
