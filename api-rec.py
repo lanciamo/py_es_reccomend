@@ -1,3 +1,5 @@
+# coding: utf-8
+# Импортирует поддержку UTF-8.
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 import random
