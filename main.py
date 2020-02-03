@@ -1,6 +1,6 @@
 # coding: utf-8
 # Импортирует поддержку UTF-8.
-from flask import Flask, request, make_response, jsonify
+
 import json
 from elasticsearch import Elasticsearch
 from collections import Counter
@@ -8,8 +8,7 @@ from collections import Counter
 # by default we connect to localhost:9200
 es = Elasticsearch()
 
-app = Flask(__name__)
-
+userId = input('введите userId')
 
 def delete_index(name_index):
     # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
@@ -52,7 +51,7 @@ def new_index(name_index):
     #    {'acknowledged': True, 'shards_acknowledged': True, 'index': 'my-index'}
 
 
-def info_index(name_index): # get info about index
+def info_index(name_index):  # get info about index
     es.indices.get_mapping(index=name_index)
 
 
@@ -151,51 +150,30 @@ def recomended_for(userId):
     return res_fids
 
 
-# # function for responses
-# def results():
-#     # build a request object
-#     req = request.get_json(force=True)
-#
-#     # fetch action from json
-#     action = req.get('queryResult').get('action')
-#
-#     # return a fulfillment response
-#     return {'fulfillmentText': 'This is a response from webhook for Reccomends'}
+def menu():
+    action = input(
+        "And what do you want?\n Choose:\n[1] Искать fids по userId\n[2] Only update changes and "
+        "additions\n "
+        "[3] Show positions with a salary above a given \n[4] Drop current DataBase\n[5] Exit\n")
 
+    if action == "1":
+        user_id = input("Input user_id: ")  # python
+        # page_num = int(input("For how many pages do you want go deeper : "))  # 2
+        # parse_hh(position, page_num, collection, mode="all")
+        print(user_preffers(user_id))
+    elif action == "2":
+        position = input("Input position your prefer: ")  # python
+        page_num = int(input("For how many pages do you want go deeper : "))
+        parse_hh(position, page_num, collection, mode="update")
+        parse_superjob(position, page_num, collection, mode="update")
+    elif action == "3":
+        salary = float(input("From what salary will I look up?: "))
+        search_job(salary, collection)
+    elif action == "4":
+        collection.drop()
+    elif action == "5":
+        return False
 
-user_id_lib = {}
-
-
-# create a route for webhook
-@app.route('/', methods=['GET', 'POST'])
-def main():
-    # Функция получает тело запроса и возвращает ответ.
-
-    response = {
-        "version": request.json['version'],
-        "session": request.json['session'],
-        "response": {
-            "end_session": False
-        }
-    }
-
-    handle_dialog(request.json, response)
-
-    return "Hello!"
-
-    # return json.dumps(
-    #     response,
-    #     ensure_ascii=False,
-    #     indent=2
-    # )
-
-
-def handle_dialog(req, res):
-
-    if req:
-        res['response']['text'] = 'Hello! And what are you going to do?)'
-        return
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+while __name__ == "__main__":
+    if not main():
+        break
