@@ -103,8 +103,8 @@ ai_quotes = [
 
 class Quote(Resource):
     def get(self, userid=0):
-        if userId == 0:
-            return 'Please send userId', 404
+        if userid == 0:
+            return 'Please send userid', 404
             # return random.choice(ai_quotes), 200
         else:
             # for quote in ai_quotes:
