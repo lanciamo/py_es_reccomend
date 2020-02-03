@@ -8,8 +8,6 @@ from collections import Counter
 # by default we connect to localhost:9200
 es = Elasticsearch()
 
-userId = input('введите userId')
-
 
 def delete_index(name_index):
     # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
@@ -153,8 +151,8 @@ def recomended_for(userId):
 
 def menu():
     action = input(
-        "And what do you want?\n Choose:\n[1] Искать fids по userId\n[2] Only update changes and "
-        "additions\n "
+        "And what do you want?\n Choose:\n[1] Искать fids по userId\n[2] Искать cId по "
+        "fids and user_id\n "
         "[3] Show positions with a salary above a given \n[4] Drop current DataBase\n[5] Exit\n")
 
     if action == "1":
@@ -163,10 +161,10 @@ def menu():
         # parse_hh(position, page_num, collection, mode="all")
         print(user_preffers(user_id))
     elif action == "2":
-        position = input("Input position your prefer: ")  # python
-        page_num = int(input("For how many pages do you want go deeper : "))
-        parse_hh(position, page_num, collection, mode="update")
-        parse_superjob(position, page_num, collection, mode="update")
+        user_id = input("Input user_id: ")  # python
+        fids = input("Input list of fids : ")
+        # parse_hh(position, page_num, collection, mode="update")
+        print(search_fids(fids, user_id))
     elif action == "3":
         salary = float(input("From what salary will I look up?: "))
         search_job(salary, collection)
@@ -179,4 +177,3 @@ def menu():
 while __name__ == "__main__":
     if not menu():
         break
-    menu()
