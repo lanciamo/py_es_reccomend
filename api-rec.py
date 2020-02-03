@@ -104,12 +104,13 @@ ai_quotes = [
 class Quote(Resource):
     def get(self, userId=0):
         if userId == 0:
-            return 'Please send userId', 200
+            return 'Please send userId', 404
             # return random.choice(ai_quotes), 200
-        for quote in ai_quotes:
-            if quote["id"] == id:
-                return quote, 200
-        return "Quote not found", 404
+        # for quote in ai_quotes:
+        #     if quote["id"] == id:
+        #         return quote, 200
+        # return "Quote not found", 404
+        return recomended_for(userId), 200
 
     def post(self, id):  # добавление
         parser = reqparse.RequestParser()
