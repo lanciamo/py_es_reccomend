@@ -111,6 +111,9 @@ def search_fids(fids, userId):
                                     }
                                 ]
                             }
+                        },
+                        "collapse": {
+                            "field": "cId"
                         }
                     })
     a1 = {}
