@@ -12,7 +12,8 @@ queries = {}
 
 class Recommend(Resource):
     def get(self, user_id):
-        return {"id": user_id}
+        # return {"id": user_id}
+        return recomended_for(user_id)
 
     def put(self, user_id):
         queries[user_id] = request.form['data']
