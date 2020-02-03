@@ -102,57 +102,57 @@ ai_quotes = [
 
 
 class Quote(Resource):
-    def get(self, userId=0):
+    def get(self, userid=0):
         if userId == 0:
             return 'Please send userId', 404
             # return random.choice(ai_quotes), 200
-
+        else:
         # for quote in ai_quotes:
         #     if quote["id"] == id:
         #         return quote, 200
         # return "Quote not found", 404
-        return recomended_for(userId), 200
+        return recomended_for(userid), 200
 
-    def post(self, id):  # добавление
-        parser = reqparse.RequestParser()
-        parser.add_argument("author")
-        parser.add_argument("quote")
-        params = parser.parse_args()
-        for quote in ai_quotes:
-            if id == quote["id"]:
-                return f"Quote with id {id} already exists", 400
-        quote = {
-            "id": int(id),
-            "author": params["author"],
-            "quote": params["quote"]
-        }
-        ai_quotes.append(quote)
-        return quote, 201
-
-    def put(self, id):  # изменения
-        parser = reqparse.RequestParser()
-        parser.add_argument("author")
-        parser.add_argument("quote")
-        params = parser.parse_args()
-        for quote in ai_quotes:
-            if (id == quote["id"]):
-                quote["author"] = params["author"]
-                quote["quote"] = params["quote"]
-                return quote, 200
-
-        quote = {
-            "id": id,
-            "author": params["author"],
-            "quote": params["quote"]
-        }
-
-        ai_quotes.append(quote)
-        return quote, 201
-
-    def delete(self, id):
-        global ai_quotes
-        ai_quotes = [qoute for qoute in ai_quotes if qoute["id"] != id]
-        return f"Quote with id {id} is deleted.", 200
+    # def post(self, id):  # добавление
+    #     parser = reqparse.RequestParser()
+    #     parser.add_argument("author")
+    #     parser.add_argument("quote")
+    #     params = parser.parse_args()
+    #     for quote in ai_quotes:
+    #         if id == quote["id"]:
+    #             return f"Quote with id {id} already exists", 400
+    #     quote = {
+    #         "id": int(id),
+    #         "author": params["author"],
+    #         "quote": params["quote"]
+    #     }
+    #     ai_quotes.append(quote)
+    #     return quote, 201
+    #
+    # def put(self, id):  # изменения
+    #     parser = reqparse.RequestParser()
+    #     parser.add_argument("author")
+    #     parser.add_argument("quote")
+    #     params = parser.parse_args()
+    #     for quote in ai_quotes:
+    #         if (id == quote["id"]):
+    #             quote["author"] = params["author"]
+    #             quote["quote"] = params["quote"]
+    #             return quote, 200
+    #
+    #     quote = {
+    #         "id": id,
+    #         "author": params["author"],
+    #         "quote": params["quote"]
+    #     }
+    #
+    #     ai_quotes.append(quote)
+    #     return quote, 201
+    #
+    # def delete(self, id):
+    #     global ai_quotes
+    #     ai_quotes = [qoute for qoute in ai_quotes if qoute["id"] != id]
+    #     return f"Quote with id {id} is deleted.", 200
 
 
 def delete_index(name_index):
@@ -296,6 +296,6 @@ def recomended_for(userId):
 
 
 # api.add_resource(Quote, "/ai-quotes", "/ai-quotes/", "/ai-quotes/<int:id>")
-api.add_resource(Quote, "/recc", "/recc/", "/recc/<int:userId>")
+api.add_resource(Quote, "/recc", "/recc/", "/recc/<int:userid>")
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
