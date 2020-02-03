@@ -158,9 +158,9 @@ def user_preffers(userId):
     return output
 
 
-def recomended_for(userId):
-    preffer = user_preffers(userId)
-    res_fids = search_fids(preffer, userId)
+def recomended_for(user_id):
+    preffer = user_preffers(user_id)
+    res_fids = search_fids(str(preffer), user_id)
     return res_fids
 
 
