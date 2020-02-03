@@ -2,8 +2,12 @@
 # Импортирует поддержку UTF-8.
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
-import random
+import json
+from elasticsearch import Elasticsearch
+from collections import Counter
 
+# by default we connect to localhost:9200
+es = Elasticsearch()
 app = Flask(__name__)
 api = Api(app)
 
