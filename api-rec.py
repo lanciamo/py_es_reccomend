@@ -24,8 +24,7 @@ class Recommend(Resource):
         return {queries: queries[user_id]}
 
 
-def delete_index(name_index):
-    # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
+def delete_index(name_index):  # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
     es.indices.delete(index=name_index, ignore=400)
 
 
@@ -116,7 +115,6 @@ def search_fids(fids, userId):
         a1[i] = res['hits']['hits'][i]['_source']['cId']
     res = json.dumps(a1)
     return res
-    # 'treto01.json'
 
 
 def search_tags_from_userId(userId):
@@ -127,7 +125,7 @@ def search_tags_from_userId(userId):
                         "sort": [{"date": "desc"}],
                         "query": {
                             "term": {
-                                "userId": userId
+                                'userId': userId,
                             }
                         }
                     }
@@ -138,13 +136,13 @@ def search_tags_from_userId(userId):
 def remove(value, deletechars):
     for c in deletechars:
         value = value.replace(c, '')
-    return value;
+    return value
 
 
 def most_popular_fids():
     res = es.search(index="events",
                     body={
-                        "size": 10000,
+                        "size": 1000,
                         "_source": ["fids"],
                         "sort": [{"date": "desc"}]
                     }
@@ -166,26 +164,28 @@ def most_popular_fids():
 
 def user_preffers(userId):
     res = search_tags_from_userId(userId)
-    a = ''
-    for i in range(0, len(res['hits']['hits'])):
-        a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
-    a = remove(a, '\,/:*?"<[]>|')
-    counts = Counter(a.split(' ')[:-1])
-    d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
-    output = []
-    for k in d:
-        if k not in output:
-            output.append(k)
-            if len(output) == 10:
-                break
-    return output
+    if len(res['hits']['hits']) == 0:
+        mpf = most_popular_fids()
+        return mpf
+    else:
+        a = ''
+        for i in range(0, len(res['hits']['hits'])):
+            a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
+        a = remove(a, '\,/:*?"<[]>|')
+        counts = Counter(a.split(' ')[:-1])
+        d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
+        output = []
+        for k in d:
+            if k not in output:
+                output.append(k)
+                if len(output) == 10:
+                    break
+        return output
 
 
-def recomended_for(user_id):
-    preffer = user_preffers(user_id)
-    if len(preffer) < 2:
-        preffer = most_popular_fids()
-    res_fids = search_fids(str(preffer), user_id)
+def recomended_for(userId):
+    preffer = user_preffers(userId)
+    res_fids = search_fids(str(preffer), userId)
     return res_fids
 
 
