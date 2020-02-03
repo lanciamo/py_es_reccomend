@@ -159,6 +159,6 @@ def recomended_for(userId):
     return res_fids
 
 
-api.add_resource(Recommend, '/<string:todo_id>')
+api.add_resource(Recommend, '/<string:user_id>')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
