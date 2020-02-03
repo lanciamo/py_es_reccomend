@@ -20,7 +20,7 @@ parser.add_argument('uid')
 class Events(Resource):
     def get(self):
         args = parser.parse_args()
-        return args
+        return recomended_for(args['uid']), 201
 
     def post(self):
         args = parser.parse_args()
