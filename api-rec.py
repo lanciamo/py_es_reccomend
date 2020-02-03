@@ -107,11 +107,11 @@ class Quote(Resource):
             return 'Please send userId', 404
             # return random.choice(ai_quotes), 200
         else:
-        # for quote in ai_quotes:
-        #     if quote["id"] == id:
-        #         return quote, 200
-        # return "Quote not found", 404
-        return recomended_for(userid), 200
+            # for quote in ai_quotes:
+            #     if quote["id"] == id:
+            #         return quote, 200
+            # return "Quote not found", 404
+            return recomended_for(userid), 200
 
     # def post(self, id):  # добавление
     #     parser = reqparse.RequestParser()
