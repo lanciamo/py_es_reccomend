@@ -52,7 +52,7 @@ def new_index(name_index):
     #    {'acknowledged': True, 'shards_acknowledged': True, 'index': 'my-index'}
 
 
-def info_index(name_index):
+def info_index(name_index): # get info about index
     es.indices.get_mapping(index=name_index)
 
 
