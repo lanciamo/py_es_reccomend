@@ -13,9 +13,9 @@ parser.add_argument('uid')
 
 
 class TodoSimple(Resource):
-    def get(self):
+    def get(self, uid):
         args = parser.parse_args()
-        return {args: args}
+        return {args: uid}
 
     # def put(self, todo_id):
     #     todos[todo_id] = request.form['data']
