@@ -122,12 +122,12 @@ def search_fids(fids, userId):
 def search_tags_from_userId(userId):
     res = es.search(index="events",
                     body={
-                        "size": 44,
+                        "size": 100,
                         "_source": ["userId", "fids"],
                         "sort": [{"date": "desc"}],
                         "query": {
                             "term": {
-                                'userId': userId,
+                                "userId": userId
                             }
                         }
                     }
@@ -141,9 +141,15 @@ def remove(value, deletechars):
     return value;
 
 
-def user_preffers(userId):
-    res = search_tags_from_userId(userId)
-    a = ''
+def most_popular_fids():
+    res = es.search(index="events",
+                    body={
+                        "size": 10000,
+                        "_source": ["fids"],
+                        "sort": [{"date": "desc"}]
+                        }
+                    )
+    a =''
     for i in range(0, len(res['hits']['hits'])):
         a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
     a = remove(a, '\,/:*?"<[]>|')
@@ -156,6 +162,27 @@ def user_preffers(userId):
             if len(output) == 10:
                 break
     return output
+
+
+def user_preffers(userId):
+    res = search_tags_from_userId(userId)
+    if len(res['hits']['hits']) == 0:
+        mpf = most_popular_fids()
+        return mpf
+    else:
+        a =''
+        for i in range(0, len(res['hits']['hits'])):
+            a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
+        a = remove(a, '\,/:*?"<[]>|')
+        counts = Counter(a.split(' ')[:-1])
+        d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
+        output = []
+        for k in d:
+            if k not in output:
+                output.append(k)
+                if len(output) == 10:
+                    break
+        return output
 
 
 def recomended_for(user_id):
