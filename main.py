@@ -10,6 +10,7 @@ es = Elasticsearch()
 
 userId = input('введите userId')
 
+
 def delete_index(name_index):
     # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
     es.indices.delete(index=name_index, ignore=400)
@@ -174,6 +175,8 @@ def menu():
     elif action == "5":
         return False
 
+
 while __name__ == "__main__":
-    if not main():
+    if not menu():
         break
+    menu()
