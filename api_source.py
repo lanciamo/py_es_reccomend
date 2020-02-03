@@ -13,7 +13,7 @@ parser.add_argument('uid')
 
 
 class TodoSimple(Resource):
-    def get(self, uid):
+    def get(self):
         args = parser.parse_args()
         return {args: uid}
 
@@ -22,8 +22,8 @@ class TodoSimple(Resource):
     #     return {todo_id: todos[todo_id]}
 
 
-
-api.add_resource(TodoSimple, '/<string:todo_id>')
+api.add_resource(TodoSimple)
+# api.add_resource(TodoSimple, '/<string:todo_id>')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
