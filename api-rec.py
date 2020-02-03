@@ -27,7 +27,6 @@ class Events(Resource):
         return recomended_for(args['uid']), 201
 
 
-
 def delete_index(name_index):  # ТОЛЬКО ДЛЯ УДАЛЕНИЯ
     es.indices.delete(index=name_index, ignore=400)
 
@@ -82,6 +81,9 @@ def load_info():
         es.index(index="events", id=id, doc_type='_doc', body=item)
     #     if id > 2:
     #         break
+
+
+# ==================
 
 
 def search_fids(fids, userId):
@@ -168,22 +170,22 @@ def most_popular_fids():
 
 def user_preffers(userId):
     res = search_tags_from_userId(userId)
-    if len(res['hits']['hits']) == 0:
+    a = ''
+    for i in range(0, len(res['hits']['hits'])):
+        a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
+    a = remove(a, '\,/:*?"<[]>|')
+    counts = Counter(a.split(' ')[:-1])
+    d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
+    output = []
+    for k in d:
+        if k not in output:
+            output.append(k)
+            if len(output) == 10:
+                break
+    if len(output) < 2:
         mpf = most_popular_fids()
         return mpf
     else:
-        a = ''
-        for i in range(0, len(res['hits']['hits'])):
-            a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
-        a = remove(a, '\,/:*?"<[]>|')
-        counts = Counter(a.split(' ')[:-1])
-        d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
-        output = []
-        for k in d:
-            if k not in output:
-                output.append(k)
-                if len(output) == 10:
-                    break
         return output
 
 
