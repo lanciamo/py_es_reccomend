@@ -106,6 +106,7 @@ class Quote(Resource):
         if userId == 0:
             return 'Please send userId', 404
             # return random.choice(ai_quotes), 200
+
         # for quote in ai_quotes:
         #     if quote["id"] == id:
         #         return quote, 200
@@ -295,6 +296,6 @@ def recomended_for(userId):
 
 
 # api.add_resource(Quote, "/ai-quotes", "/ai-quotes/", "/ai-quotes/<int:id>")
-api.add_resource(Quote, "/recc", "/recc/", "/recc/<int:id>")
+api.add_resource(Quote, "/recc", "/recc/", "/recc/<int:userId>")
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
