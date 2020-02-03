@@ -111,6 +111,6 @@ class Quote(Resource):
             return "Quote not found", 404
 
 
-api.add_resource(Quote, "/ai-quotes", "/ai-quotes/", "/ai-quotes/<int:id>")
+api.add_resource(Quote, "/", "/", "/<int:id>")
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
