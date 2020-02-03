@@ -147,9 +147,9 @@ def most_popular_fids():
                         "size": 10000,
                         "_source": ["fids"],
                         "sort": [{"date": "desc"}]
-                        }
+                    }
                     )
-    a =''
+    a = ''
     for i in range(0, len(res['hits']['hits'])):
         a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
     a = remove(a, '\,/:*?"<[]>|')
@@ -166,27 +166,25 @@ def most_popular_fids():
 
 def user_preffers(userId):
     res = search_tags_from_userId(userId)
-    if len(res['hits']['hits']) == 0:
-        mpf = most_popular_fids()
-        return mpf
-    else:
-        a =''
-        for i in range(0, len(res['hits']['hits'])):
-            a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
-        a = remove(a, '\,/:*?"<[]>|')
-        counts = Counter(a.split(' ')[:-1])
-        d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
-        output = []
-        for k in d:
-            if k not in output:
-                output.append(k)
-                if len(output) == 10:
-                    break
-        return output
+    a = ''
+    for i in range(0, len(res['hits']['hits'])):
+        a = a + res['hits']['hits'][i]['_source']['fids'] + ' '
+    a = remove(a, '\,/:*?"<[]>|')
+    counts = Counter(a.split(' ')[:-1])
+    d = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
+    output = []
+    for k in d:
+        if k not in output:
+            output.append(k)
+            if len(output) == 10:
+                break
+    return output
 
 
 def recomended_for(user_id):
     preffer = user_preffers(user_id)
+    if len(preffer) < 2:
+        preffer = most_popular_fids()
     res_fids = search_fids(str(preffer), user_id)
     return res_fids
 
