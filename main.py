@@ -167,8 +167,8 @@ def menu():
         print(search_fids(fids, user_id))
     elif action == "3":
         user_id = input("Input user_id: ")  # python
-        fids = input("Input list of fids : ")
-        print(recomended_for(fids, user_id))
+        # fids = input("Input list of fids : ")
+        print(recomended_for(user_id))
     elif action == "4":
         collection.drop()
     elif action == "5":
