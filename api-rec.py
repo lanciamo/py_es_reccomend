@@ -2,6 +2,7 @@
 # Импортирует поддержку UTF-8.
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
+import random
 import json
 from elasticsearch import Elasticsearch
 from collections import Counter
@@ -170,6 +171,7 @@ def most_popular_fids():
 
 def list_to_txt(lis):
     b = ''
+    random.shuffle(lis)
     for i in range(0, len(lis)):
         b = b + lis[i] + ' '
     b = remove(b, '\,/:*?"<[]>|')
